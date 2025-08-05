@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}后台管理{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h1>管理员后台</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="flash-success">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="admin-grid">
+        <div class="form-card">
+            <h2>发布新公告</h2>
+            <form action="{{ url_for('add_announcement') }}" method="POST">
+                <label for="title">公告标题:</label>
+                <input type="text" id="title" name="title" required>
+                <label for="content">公告内容:</label>
+                <textarea id="content" name="content" rows="4" class="richtext-editor"></textarea>
+                <button type="submit" class="btn-primary">立即发布</button>
+            </form>
+        </div>
+        <div class="form-card">
+            <h2>创建新用户</h2>
+            <form action="{{ url_for('add_user') }}" method="POST">
+                <label for="username">用户名:</label>
+                <input type="text" id="username" name="username" required autocomplete="off">
+                <label for="password">密码:</label>
+                <input type="password" id="password" name="password" required>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="is_admin" name="is_admin">
+                    <label for="is_admin" class="checkbox-label">设为管理员</label>
+                </div>
+                <button type="submit" class="btn-primary">创建用户</button>
+            </form>
+        </div>
+
+        <div class="list-card full-width">
+            <h2>公告管理</h2>
+            <ul class="admin-data-list">
+                {% for announcement in announcements %}
+                <li>
+                    <span class="item-main-content"><strong>{{ announcement['title'] }}</strong> - <small>{{ announcement['date'].strftime('%Y-%m-%d') }}</small></span>
+                    <span class="item-actions">
+                        <a href="{{ url_for('edit_announcement', id=announcement.id) }}" class="btn-edit">编辑</a>
+                        <form action="{{ url_for('delete_announcement', id=announcement.id) }}" method="POST" onsubmit="return confirm('确定要删除这条公告吗？');">
+                            <button type="submit" class="btn-delete">删除</button>
+                        </form>
+                    </span>
+                </li>
+                {% else %}
+                <li>暂无公告</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="list-card full-width">
+            <h2>用户管理</h2>
+            <ul class="admin-data-list">
+                {% for user in users %}
+                <li>
+                    <span class="item-main-content">
+                        <strong>{{ user['username'] }}</strong> (ID: {{ user.id }})
+                        {% if user.is_admin == 1 %}<strong>(管理员)</strong>{% endif %}
+                    </span>
+                    <span class="item-actions">
+                        <a href="{{ url_for('edit_user', id=user.id) }}" class="btn-edit">编辑</a>
+                        {% if user.id != session['user_id'] and user.id != 1 %}
+                        <form action="{{ url_for('delete_user', id=user.id) }}" method="POST" onsubmit="return confirm('确定要删除用户 {{ user.username }} 吗？此操作不可恢复！');">
+                            <button type="submit" class="btn-delete">删除</button>
+                        </form>
+                        {% endif %}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="list-card full-width">
+            <h2>用户反馈</h2>
+            <ul class="admin-data-list">
+                {% for feedback in feedbacks %}
+                <li>
+                    <span class="item-main-content"><strong>{{ feedback['user_name'] }}:</strong> {{ feedback['message'] }} <small>({{ feedback['date'].strftime('%Y-%m-%d') }})</small></span>
+                    <span class="item-actions">
+                        <form action="{{ url_for('delete_feedback', id=feedback.id) }}" method="POST" onsubmit="return confirm('确定要删除这条反馈吗？');">
+                            <button type="submit" class="btn-delete">删除</button>
+                        </form>
+                    </span>
+                </li>
+                {% else %}
+                <li>暂无反馈</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}公告系统{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css">
+</head>
+<body id="body-pd">
+
+    <nav class="sidebar" id="sidebar">
+        <div>
+            <div class="sidebar_logo">
+                <i class="fa-solid fa-bullhorn sidebar_logo-icon"></i>
+                <span class="sidebar_logo-name">Whole_night</span>
+            </div>
+            <div class="sidebar_list">
+                <a href="{{ url_for('index') }}" class="sidebar_link {% if request.path == url_for('index') %}active{% endif %}">
+                    <i class="fa-solid fa-house-chimney sidebar_icon"></i>
+                    <span class="sidebar_name">首页</span>
+                </a>
+                <a href="{{ url_for('feedback_page') }}" class="sidebar_link {% if request.path == url_for('feedback_page') %}active{% endif %}">
+                    <i class="fa-solid fa-comment-dots sidebar_icon"></i>
+                    <span class="sidebar_name">提交反馈</span>
+                </a>
+                {% if session.is_admin == 1 %}
+                <a href="{{ url_for('admin_dashboard') }}" class="sidebar_link {% if request.path == url_for('admin_dashboard') %}active{% endif %}">
+                    <i class="fa-solid fa-user-shield sidebar_icon"></i>
+                    <span class="sidebar_name">后台管理</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        <a href="{{ url_for('logout_user') }}" class="sidebar_link">
+            <i class="fa-solid fa-right-from-bracket sidebar_icon"></i>
+            <span class="sidebar_name">退出登录</span>
+        </a>
+    </nav>
+
+    <main class="main-content">
+        <header class="header" id="header">
+            <div class="header_toggle" id="header-toggle">
+                <i class="fa-solid fa-bars" id="header-icon"></i>
+            </div>
+            <div class="header_user">
+                欢迎, {{ session.username }}
+            </div>
+        </header>
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/translations/zh-cn.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+
+            // --- 侧边栏脚本 ---
+            const showNavbar = (toggleId, navId, bodyId, headerId, iconId) => {
+                const toggle = document.getElementById(toggleId);
+                const nav = document.getElementById(navId);
+                const bodypd = document.getElementById(bodyId);
+                const headerpd = document.getElementById(headerId);
+                const icon = document.getElementById(iconId);
+
+                if (toggle && nav && bodypd && headerpd && icon) {
+                    toggle.addEventListener('click', () => {
+                        nav.classList.toggle('show');
+                        bodypd.classList.toggle('body-pd');
+                        headerpd.classList.toggle('body-pd');
+                        icon.classList.toggle('fa-bars');
+                        icon.classList.toggle('fa-xmark');
+                    });
+                }
+            }
+            showNavbar('header-toggle', 'sidebar', 'body-pd', 'header', 'header-icon');
+
+            // --- 公告模态框脚本 ---
+            const announcementList = document.getElementById('announcement-list');
+            const modal = document.getElementById('announcement-modal');
+
+            if (announcementList && modal) {
+                const modalTitle = document.getElementById('modal-title');
+                const modalDate = document.getElementById('modal-date');
+                const modalBody = document.getElementById('modal-body');
+                const modalCloseBtn = document.getElementById('modal-close-btn');
+
+                const openModal = (item) => {
+                    modalTitle.textContent = item.dataset.title;
+                    modalDate.textContent = "发布于: " + item.dataset.date;
+                    modalBody.innerHTML = item.dataset.content;
+                    document.body.classList.add('modal-open');
+                    modal.classList.add('visible');
+                };
+
+                const closeModal = () => {
+                    document.body.classList.remove('modal-open');
+                    modal.classList.remove('visible');
+                };
+
+                announcementList.addEventListener('click', (e) => {
+                    const clickedItem = e.target.closest('.clickable');
+                    if (clickedItem) {
+                        openModal(clickedItem);
+                    }
+                });
+
+                modalCloseBtn.addEventListener('click', closeModal);
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && modal.classList.contains('visible')) {
+                        closeModal();
+                    }
+                });
+
+                // 实现图片点击预览
+                modalBody.addEventListener('click', function(event) {
+                    if (event.target.tagName === 'IMG') {
+                        const imageUrl = event.target.src;
+                        basicLightbox.create(`<img src="${imageUrl}">`).show();
+                    }
+                });
+            }
+
+            // --- CKEditor 5 初始化脚本 ---
+            const editors = document.querySelectorAll('textarea.richtext-editor');
+            if (editors.length > 0) {
+                editors.forEach(editorEl => {
+                    CKEDITOR.ClassicEditor
+                        .create(editorEl, {
+                            removePlugins: [
+                                'RealTimeCollaborativeComments', 'RealTimeCollaborativeTrackChanges', 'RealTimeCollaborativeRevisionHistory',
+                                'PresenceList', 'Comments', 'TrackChanges', 'TrackChangesData', 'RevisionHistory', 'Pagination',
+                                'WProofreader', 'DocumentOutline', 'TableOfContents', 'AIAssistant', 'MultiLevelList',
+                                'FormatPainter', 'Template', 'SlashCommand', 'PasteFromOfficeEnhanced', 'CaseChange'
+                            ],
+                            language: 'zh-cn',
+                            simpleUpload: {
+                                uploadUrl: '/admin/upload/image'
+                            }
+                        })
+                        .catch(error => {
+                            console.error('初始化编辑器时出错:', error);
+                        });
+                });
+            }
+
+        });
+    </script>
+</body>
+</html>

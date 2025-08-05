@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}首页 - 公告系统{% endblock %}
+
+{% block content %}
+<div class="content-container">
+    <h1>公告</h1>
+    <ul class="announcement-list" id="announcement-list">
+        {% for announcement in announcements %}
+        <li class="announcement-item clickable"
+            data-title="{{ announcement['title'] }}"
+            data-content="{{ announcement['content'] }}"
+            data-date="{{ announcement['date'].strftime('%Y-%m-%d') }}">
+            <div class="announcement-header">
+                <strong class="announcement-title">{{ announcement['title'] }}</strong>
+                <span class="announcement-date">{{ announcement['date'].strftime('%Y-%m-%d') }}</span>
+            </div>
+            <p class="announcement-content">{{ announcement['content'] | striptags | truncate(100) }}</p>
+        </li>
+        {% else %}
+        <li class="announcement-item">暂无公告</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<div class="modal-overlay" id="announcement-modal">
+    <div class="modal-content-box">
+        <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+        <h2 class="modal-title" id="modal-title"></h2>
+        <p class="modal-date" id="modal-date"></p>
+        <div class="modal-body" id="modal-body"></div>
+    </div>
+</div>
+{% endblock %}
