@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuthStore } from '@/stores/auth';
 
 const apiClient = axios.create({
-    baseURL: 'http://127.0.0.1:8000/api', // Django API 地址
+    baseURL: '/api', // Django API 地址
     headers: {
         'Content-Type': 'application/json'
     }
