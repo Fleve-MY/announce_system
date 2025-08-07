@@ -75,7 +75,6 @@ async function saveChanges() {
     text-align: center;
     margin-top: 1rem;
 }
-/* :deep/ 样式保持不变，因为它对新的封装组件同样有效 */
 :deep(.ck-editor__main) {
   min-height: 200px;
 }

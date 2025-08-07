@@ -14,6 +14,10 @@
           <i class="fa-solid fa-comment-dots sidebar_icon"></i>
           <span class="sidebar_name">提交反馈</span>
         </router-link>
+        <router-link to="/logs" class="sidebar_link" active-class="active">
+          <i class="fas fa-clipboard-check sidebar_icon"></i>
+          <span class="sidebar_name">同款检测日志</span>
+        </router-link>
         <router-link v-if="authStore.isAdmin" to="/admin" class="sidebar_link" active-class="active">
           <i class="fa-solid fa-user-shield sidebar_icon"></i>
           <span class="sidebar_name">后台管理</span>

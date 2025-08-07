@@ -59,7 +59,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router'; // 2. 导入 useRouter 以修复登录跳转功能
+import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const router = useRouter(); // 获取 router 实例
@@ -93,7 +93,6 @@ async function handleLogin() {
   align-items: center;
   background: #f0f2f5;
 
-  /* 确保它在最上层 */
   z-index: 999;
 }
 </style>

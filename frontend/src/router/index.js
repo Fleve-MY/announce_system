@@ -8,6 +8,7 @@ import Feedback from '@/views/Feedback.vue'
 import AdminDashboard from '@/views/AdminDashboard.vue'
 import EditAnnouncement from '@/views/EditAnnouncement.vue'
 import EditUser from '@/views/EditUser.vue'
+import DetectionLog from '@/views/DetectionLog.vue'; // 1. 导入新组件
 
 const routes = [
     { path: '/login', name: 'Login', component: Login },
@@ -18,6 +19,8 @@ const routes = [
         children: [
             { path: '', name: 'Home', component: Home },
             { path: 'feedback', name: 'Feedback', component: Feedback },
+            // 2. 在 feedback 下面添加新路由
+            { path: 'logs', name: 'DetectionLog', component: DetectionLog },
             {
                 path: 'admin',
                 name: 'AdminDashboard',

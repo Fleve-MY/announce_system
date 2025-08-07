@@ -1516,3 +1516,134 @@ label.checkbox-label {
   opacity: 0;
   transform: translateY(-20px);
 }
+
+
+/* --- 同款检测日志页面样式 --- */
+.header-with-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.header-with-button h1 {
+  margin-bottom: 0;
+}
+
+.refresh-btn {
+  width: auto;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+}
+
+.refresh-btn .fa-sync-alt {
+  margin-right: 0.5rem;
+}
+
+.fa-spin {
+  animation: fa-spin 2s infinite linear;
+}
+
+@keyframes fa-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-state, .error-state, .empty-state {
+  padding: 2rem;
+  text-align: center;
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.error-state {
+  color: var(--danger-color);
+}
+
+.log-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.log-list-header, .log-list-item {
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+  justify-content: space-between; /* 确保列项均匀分布 */
+}
+
+.log-list-header {
+  font-weight: 700;
+  color: var(--text-color);
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.log-list-item:last-child {
+  border-bottom: none;
+}
+
+/* --- 同款检测日志页面样式更新 (管理员视图) --- */
+
+/* 为新增的“用户名”列定义样式 */
+.col-user {
+  flex: 2; /* 统一所有列的 flex 权重 */
+  min-width: 150px;  /* 统一列的最小宽度 */
+  font-weight: 500;
+  padding-right: 1rem;
+  text-align: center; /* 用户名居中 */
+  display: inline-flex;
+  justify-content: center;  /* 确保用户名内容居中 */
+  align-items: center;  /* 垂直居中对齐 */
+}
+
+/* 调整原有列的 flex 权重和最小宽度 */
+.col-b {
+  flex: 2;
+  min-width: 160px;  /* 调整宽度，避免列内容过长 */
+  padding-right: 1rem;
+  text-align: center; /* 日期列居中 */
+}
+.col-c {
+  flex: 2;
+  min-width: 160px;
+  padding-right: 1rem;
+  text-align: center; /* 店铺列居中 */
+}
+.col-j {
+  flex: 1;
+  min-width: 120px;
+  padding-right: 1rem;
+  text-align: center; /* 编码列居中 */
+}
+.col-f {
+  flex: 2.5;
+  min-width: 200px;
+  padding-right: 1rem;
+  text-align: center; /* 关键字/类目居中 */
+}
+.col-k {
+  flex: 1;
+  min-width: 100px;
+  text-align: center; /* 状态列居中 */
+  padding-right: 1rem;
+}
+
+/* “已完成”状态的样式 */
+.status-finished {
+  font-weight: bold;
+  color: #28a745;
+}
+
+/* “未完成”状态的样式 */
+.status-unfinished {
+  font-weight: bold;
+  color: var(--danger-color);
+}
+
+

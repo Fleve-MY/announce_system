@@ -184,3 +184,10 @@ AUTH_USER_MODEL = 'announce.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
+# 飞书相关配置
+FEISHU_APP_ID = 'cli_a7303bcb2a79d00e'
+FEISHU_APP_SECRET = 'VJPDbaWlAcq0RZWP7iYP1duCWgwfwkIz'
+FEISHU_SPREADSHEET_TOKEN = 'MulwsmLsFh9fLdtB4GQcIloLnLc'
