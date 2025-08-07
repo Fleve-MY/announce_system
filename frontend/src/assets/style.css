@@ -1302,7 +1302,7 @@ body.modal-open {
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
-/* --- 【新增】后台管理界面优化样式 --- */
+/* 后台管理界面优化样式 */
 
 .admin-grid .full-width {
     grid-column: 1 / -1; /* 让列表卡片占满整行 */
@@ -1418,8 +1418,6 @@ label.checkbox-label {
 }
 
 /* 公告内图片格式 */
-/* --- 【新增】公告弹窗(Modal)内部内容美化样式 (V2 - 强化图片居中) --- */
-
 /* 弹窗主体内容区域的基础样式 */
 .modal-body {
     font-size: 1.05rem;
@@ -1438,10 +1436,10 @@ label.checkbox-label {
 */
 .modal-body figure.image,
 .modal-body img {
-    max-width: 100%;    /* 确保宽度不会超出弹窗 */
-    height: auto;       /* 保持图片的宽高比 */
-    display: block;     /* 让其成为块级元素，以便使用 margin auto */
-    margin: 1.5rem auto; /* 上下留出间距，并通过 auto 实现水平居中 */
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5rem auto;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
@@ -1589,23 +1587,20 @@ label.checkbox-label {
 }
 
 /* --- 同款检测日志页面样式更新 (管理员视图) --- */
-
-/* 为新增的“用户名”列定义样式 */
 .col-user {
-  flex: 2; /* 统一所有列的 flex 权重 */
-  min-width: 150px;  /* 统一列的最小宽度 */
+  flex: 2;
+  min-width: 150px;
   font-weight: 500;
   padding-right: 1rem;
   text-align: center; /* 用户名居中 */
   display: inline-flex;
-  justify-content: center;  /* 确保用户名内容居中 */
+  justify-content: center;
   align-items: center;  /* 垂直居中对齐 */
 }
 
-/* 调整原有列的 flex 权重和最小宽度 */
 .col-b {
   flex: 2;
-  min-width: 160px;  /* 调整宽度，避免列内容过长 */
+  min-width: 160px;
   padding-right: 1rem;
   text-align: center; /* 日期列居中 */
 }
