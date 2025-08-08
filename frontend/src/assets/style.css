@@ -1516,39 +1516,18 @@ label.checkbox-label {
 }
 
 
-/* --- 同款检测日志页面样式 --- */
+/* --- 同款检测日志页面样式 */
 .header-with-button {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
 }
-.header-with-button h1 {
-  margin-bottom: 0;
-}
-
-.refresh-btn {
-  width: auto;
-  padding: 0.6rem 1.2rem;
-  font-size: 0.9rem;
-}
-
-.refresh-btn .fa-sync-alt {
-  margin-right: 0.5rem;
-}
-
-.fa-spin {
-  animation: fa-spin 2s infinite linear;
-}
-
-@keyframes fa-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+.header-with-button h1 { margin-bottom: 0; }
+.refresh-btn { width: auto; padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+.refresh-btn .fa-sync-alt { margin-right: 0.5rem; }
+.fa-spin { animation: fa-spin 2s infinite linear; }
+@keyframes fa-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
 .loading-state, .error-state, .empty-state {
   padding: 2rem;
@@ -1556,10 +1535,7 @@ label.checkbox-label {
   color: #6c757d;
   font-size: 1.1rem;
 }
-
-.error-state {
-  color: var(--danger-color);
-}
+.error-state { color: var(--danger-color); }
 
 .log-list {
   list-style: none;
@@ -1571,74 +1547,225 @@ label.checkbox-label {
   display: flex;
   padding: 1rem;
   border-bottom: 1px solid var(--border-color);
-  align-items: center;
-  justify-content: space-between; /* 确保列项均匀分布 */
+  align-items: center; /* 垂直居中对齐 */
 }
-
 .log-list-header {
   font-weight: 700;
   color: var(--text-color);
   background-color: #f8f9fa;
-  text-align: center;
+}
+.log-list-item:last-child { border-bottom: none; }
+.log-list-item:nth-child(even) { background-color: #fdfdfd; } /* 斑马条纹，提升可读性 */
+
+/* --- 列样式 --- */
+/* 为所有列设置通用样式，允许内容换行 */
+.log-list-header span, .log-list-item span, .log-list-header div {
+  padding: 0 8px; /* 减小左右内边距 */
+  text-align: left;
+  word-break: break-word; /* 允许在单词边界换行 */
+  hyphens: auto; /* 允许长单词在中间断开 */
 }
 
-.log-list-item:last-child {
-  border-bottom: none;
-}
-
-/* --- 同款检测日志页面样式更新 (管理员视图) --- */
+/* 使用 flex-basis 定义基础宽度，flex-grow 定义拉伸比例 */
+/* 运营人 */
 .col-user {
-  flex: 2;
-  min-width: 150px;
-  font-weight: 500;
-  padding-right: 1rem;
-  text-align: center; /* 用户名居中 */
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;  /* 垂直居中对齐 */
+    flex: 1 1 80px;
 }
-
+/* 流水号 */
+.col-a {
+    flex: 1.5 1 130px;
+}
+/* 日期 */
 .col-b {
-  flex: 2;
-  min-width: 160px;
-  padding-right: 1rem;
-  text-align: center; /* 日期列居中 */
+    flex: 1.5 1 160px;
 }
+/* 店铺 */
 .col-c {
-  flex: 2;
-  min-width: 160px;
-  padding-right: 1rem;
-  text-align: center; /* 店铺列居中 */
+    flex: 1.2 1 120px;
 }
-.col-j {
-  flex: 1;
-  min-width: 120px;
-  padding-right: 1rem;
-  text-align: center; /* 编码列居中 */
+/* 店铺账号 */
+.col-d { flex: 1.2 1 120px; }
+/* 选品编码 */
+.col-j { flex: 1 1 90px; }
+/* 关键字/类目 */
+.col-f { flex: 1.5 1 130px; }
+/* OSS路径 */
+.col-g { flex: 2.5 1 200px; }
+/* 上传数量 */
+.col-h { flex: 0 0 80px; text-align: center; } /* 固定宽度并居中 */
+/* 上传状态 */
+.col-i { flex: 1 1 90px; text-align: center; }
+/* 检测状态 */
+.col-k { flex: 1 1 90px; text-align: center; }
+/* 检测结果文件名称 */
+.col-l { flex: 2.5 1 200px; }
+
+/* 可展开/折叠列的样式 */
+.expandable {
+  cursor: pointer;
+  white-space: nowrap; /* 默认不换行 */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 超出部分显示省略号 */
+  transition: all 0.3s ease;
 }
-.col-f {
-  flex: 2.5;
-  min-width: 200px;
-  padding-right: 1rem;
-  text-align: center; /* 关键字/类目居中 */
+.expandable.expanded {
+  white-space: normal; /* 展开时允许换行 */
+  overflow: visible;
+  text-overflow: clip;
 }
-.col-k {
-  flex: 1;
-  min-width: 100px;
-  text-align: center; /* 状态列居中 */
-  padding-right: 1rem;
+.expandable:hover {
+  color: var(--first-color);
 }
 
-/* “已完成”状态的样式 */
-.status-finished {
-  font-weight: bold;
-  color: #28a745;
+/* 状态样式 */
+.status-finished { font-weight: bold; color: #28a745; }
+.status-unfinished { font-weight: bold; color: var(--danger-color); }
+
+/* 排序和筛选控件样式 */
+.log-list-header .sortable {
+    cursor: pointer;
+    transition: color 0.2s;
+    user-select: none;
+    position: relative;
 }
 
-/* “未完成”状态的样式 */
-.status-unfinished {
-  font-weight: bold;
-  color: var(--danger-color);
+.log-list-header .sortable:hover {
+    color: var(--first-color);
 }
 
+.log-list-header .sortable i {
+    margin-left: 6px;
+    font-size: 0.9em;
+    color: #999; width: 1em;
+    display: inline-block;
+}
 
+.log-list-header .sortable:hover i {
+    color: var(--first-color);
+}
+
+.filter-icon.active {
+    color: var(--first-color);
+}
+
+.pagination {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.pagination span {
+    margin: 0 1rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.pagination button {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #f8f9fa;
+}
+
+.pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.filter-wrapper {
+    padding: 0 !important;
+}
+
+.filter-wrapper > span {
+    padding: 1rem;
+    display: block;
+}
+
+.filter-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    min-width: 250px;
+    border: 1px solid #eee;
+}
+
+.filter-dropdown h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    border-left: none;
+    padding-left: 0;
+}
+
+.filter-options {
+    max-height: 220px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+.filter-options label {
+    display: flex;
+    align-items: center;
+    padding: 0.4rem 0;
+    cursor: pointer;
+}
+
+.filter-options label:hover {
+    background-color: #f8f9fa;
+}
+
+.filter-options label input {
+    margin-right: 0.75rem;
+    width: auto;
+    margin-bottom: 0;
+}
+
+.filter-actions {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.filter-actions button {
+    width: auto;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* 日期范围筛选框样式 */
+.filter-dropdown.date-range-filter .date-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-dropdown.date-range-filter label {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.filter-dropdown.date-range-filter input[type="date"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-family: var(--body-font);
+  font-size: 1rem;
+  margin-bottom: 0;
+}

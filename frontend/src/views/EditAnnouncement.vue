@@ -25,11 +25,9 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import apiClient from '@/services/api';
 
-// 2. 移除所有旧的、基于 npm 包的 CKEditor 导入
-// import * as CKEditor from '@ckeditor/ckeditor5-vue';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-// 3. 导入我们自己创建的、基于 CDN 的封装组件
+
+// 导入 CDN 封装组件
 import MyCKEditor from '@/components/MyCKEditor.vue';
 
 const props = defineProps({
@@ -42,7 +40,7 @@ const props = defineProps({
 const router = useRouter();
 const announcement = ref(null);
 
-// 4. onMounted 钩子里的数据获取逻辑保持不变，因为它是正确的
+// 获取公告逻辑
 onMounted(async () => {
   try {
     const response = await apiClient.get(`/announcements/${props.id}/`);

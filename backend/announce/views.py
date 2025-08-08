@@ -124,7 +124,7 @@ class FeishuLogView(APIView):
             return Response({"error": "请求表格元数据失败，请检查后端日志。"}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
         try:
-            range_str = f'{first_sheet_id}!B2:K1000'
+            range_str = f'{first_sheet_id}!A2:L1000'
             sheets_url = f'https://open.feishu.cn/open-apis/sheets/v2/spreadsheets/{spreadsheet_token}/values/{range_str}'
 
             response = requests.get(sheets_url, headers=headers, timeout=10)
@@ -148,19 +148,24 @@ class FeishuLogView(APIView):
         for row in all_rows:
             # 行结构: [B, C, D, E, F, G, H, I, J, K]
             # 过滤条件：如果 E 列（用户名）为空，则跳过此行
-            if len(row) >= 10 and row[3]:
-                row_username = row[3]
+            if len(row) >= 10 and row[4]:
+                row_username = row[4]
 
                 # 如果当前用户是管理员，或者当前行数据的用户名与登录用户名一致
                 if current_user.is_superuser or row_username == current_user.username:
                     user_logs.append({
                         'username': row_username,
-                        'b_col': row[0],  # B 列 - 日期
-                        'c_col': row[1],  # c 列 - 店铺中文名称
-                        'h_col': row[6],  # H 列 - 数量
-                        'f_col': row[4],  # F 列 - 关键字
-                        'j_col': row[8],  # J 列 - 编码
-                        'k_col': row[9] if row[9] else "未完成"  # K 列 - 状态
+                        'a_col': row[0],  # A 列 - 流水号
+                        'b_col': row[1],  # B 列 - 日期
+                        'c_col': row[2],  # c 列 - 店铺中文名称
+                        'd_col': row[3],  # d 列 - 店铺编号
+                        'h_col': row[7],  # H 列 - 数量
+                        'f_col': row[5],  # F 列 - 关键字
+                        'g_col': row[6],  # G 列 - oss上传路径
+                        'i_col': row[8],  # I 列 - 上传状态
+                        'j_col': row[9],  # J 列 - 编码
+                        'k_col': row[10] if row[10] else "未完成",  # K 列 - 状态
+                        'l_col': row[11], # L列 - 识别结果路径
                     })
 
         logger.info(f"FeishuLogView: 筛选完成，找到 {len(user_logs)} 条记录。")

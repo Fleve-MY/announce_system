@@ -9,7 +9,7 @@ const apiClient = axios.create({
     }
 });
 
-// --- 请求拦截器 (您已有的部分) ---
+// 请求拦截器
 // 在每个请求发送前，自动在请求头中添加 Access Token
 apiClient.interceptors.request.use(config => {
     const authStore = useAuthStore();
@@ -56,7 +56,7 @@ apiClient.interceptors.response.use(
             }
         }
 
-        // 6. 对于非 401 错误，或者没有 refresh token 的情况，直接将错误抛出
+        // 对于非 401 错误，或者没有 refresh token 的情况，直接将错误抛出
         return Promise.reject(error);
     }
 );

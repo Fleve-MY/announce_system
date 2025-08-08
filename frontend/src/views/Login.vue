@@ -73,7 +73,7 @@ async function handleLogin() {
   errorMessage.value = '';
   try {
     await authStore.login({ username: username.value, password: password.value });
-    // 3. 添加手动跳转逻辑
+    // 手动跳转
     router.push('/');
   } catch (error) {
     errorMessage.value = '用户名或密码错误！';

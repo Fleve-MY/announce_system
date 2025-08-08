@@ -58,7 +58,6 @@ async function submitFeedback() {
 </script>
 
 <style scoped>
-/* 这个页面沿用全局样式，通常不需要额外的 scoped 样式 */
 .form-card {
   max-width: 800px;
   margin: auto;
